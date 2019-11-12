@@ -1,0 +1,51 @@
+import java.util.Scanner;
+
+public class Game {
+
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		
+		//create player	
+		Player user = new Player();
+		user.stats();
+		System.out.println("");
+		
+		//create enemy
+		BadGuy opp = new BadGuy();
+		opp.stats();
+		System.out.println("");
+		
+		//while one is still alive keep fighting
+		while (true) {
+			System.out.println("User's turn"); //
+			System.out.println("Press enter to attack");
+			input.nextLine();
+			
+			int attack = user.atack();
+			opp.take_dmg();
+			boolean die = opp.die();
+			
+			
+			if (die) {
+				System.out.println("You have died.");
+				break;
+			}
+			
+			System.out.println("It is now your opponents turn. Press enter.");
+			input.nextLine();
+			
+			attack = opp.atack();
+			user.take_dmg();
+			die = user.die();
+			
+			
+			if (die) {
+				break;
+			}
+			
+			
+		}	
+
+	}
+
+}
