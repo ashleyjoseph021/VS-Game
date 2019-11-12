@@ -1,0 +1,134 @@
+import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
+
+public class Player {
+	// set up player attributes
+	int totalHealth = 28000;
+	String name;
+	int atk = 10;
+	int def = 10;
+	String hairColor;
+	String race;
+	String class_stat;
+	int actHealth;
+	
+	
+	public Player() {
+		Scanner input = new Scanner(System.in);
+		// what happens when we create a player
+		System.out.println("What do you want to name your Player");
+		name = input.nextLine();
+		
+		System.out.println("What color is your players hair");
+		hairColor = input.nextLine();
+		
+		while (true){
+			System.out.println("Are you a Human, Elf or dog");
+			race = input.nextLine();
+			if (race.equals("Human") || race.equals("Elf") || race.equals("dog")) {
+				break;
+			}
+		
+		}
+		while (true){
+			System.out.println("Are you a warior, mage or dog");
+			class_stat = input.nextLine();
+			if(class_stat.equals("warior")||class_stat.equals("mage")||class_stat.equals("dog")) {
+				break;
+			}
+		}
+		if (race.equals("Elf")){
+			def -= 2;
+			atk += 2;
+		}
+		else if (race.equals("dog")) {
+			def += 20;
+			atk += 20;
+		}
+		if (class_stat.equals("warior")) {
+			def += 5;
+			atk -= 2;
+			actHealth = totalHealth * 2;
+		}
+		else if(class_stat.equals("mage")) {
+			def -= 8;
+			atk += 10;
+			actHealth = totalHealth * 5;
+		}
+		else {
+			actHealth = totalHealth * 100;
+			def += 20;
+			atk += 20;
+		}
+		
+		
+		
+		
+	}
+	
+	// create methods or things that a player can do  
+	public void stats() {
+		System.out.println(name + "'s Stats");
+		System.out.println("Health: "+actHealth);
+		System.out.println("atk: "+atk);
+		System.out.println("def: "+def);
+		System.out.println("hairColor: "+hairColor);
+		System.out.println("race: "+race);
+		System.out.println("class: "+class_stat);
+		
+	}
+	
+	public int atack() {
+		int damage = 0;
+		int miss = ThreadLocalRandom.current().nextInt(1,6);
+		if (miss == 3) {
+			System.out.println("You miss \n");
+			return damage;
+		}
+		int atack = ThreadLocalRandom.current().nextInt(20,42);
+		damage = atk * atack + 7;
+		return damage;
+		
+		
+	}
+	public int defend() {
+		int blocked = 0;
+		int miss = ThreadLocalRandom.current().nextInt(1,6);
+		if (miss == 3) {
+			System.out.println("You block the attack ");
+			return -1;
+		}
+		int defend = ThreadLocalRandom.current().nextInt(10,35);
+		blocked = def * defend + 17;
+		return blocked;
+		
+		
+	}
+	
+	public void take_dmg() {
+		int block = defend();
+		int totaldmg = 0;
+		
+		if (block < 0) {
+			System.out.println("and take 0 damage \n");
+			totaldmg = 0;
+		}
+		
+		else {
+			totaldmg = block;
+		}
+		actHealth -= totaldmg;
+		
+	}
+	
+	public boolean die() {
+		if (actHealth > 0) {
+			return false;
+		}
+		
+		else {
+			return true;
+		}
+	}
+ 
+}
